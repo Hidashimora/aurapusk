@@ -2,34 +2,28 @@
 
 set -e
 
-echo "=== Обновление системы ==="
+echo "Installing packages..."
+
 sudo apt update
-sudo apt install -y \
-    chromium \
+
+sudo apt install -y --no-install-recommends \
     xserver-xorg \
     xinit \
     x11-xserver-utils \
-    unclutter \
-    php \
-    git
+    chromium \
+    unclutter
 
-echo "=== Включение автологина ==="
+echo "Enable console autologin..."
+
 sudo raspi-config nonint do_boot_behaviour B2
 
-echo "=== Копирование конфигурации ==="
+echo "Installing configuration..."
 
 cp bash_profile ~/.bash_profile
 cp xinitrc ~/.xinitrc
-cp kiosk.sh ~/kiosk.sh
 
 chmod +x ~/.xinitrc
-chmod +x ~/kiosk.sh
 
-echo "=== Копирование сайта ==="
-
-sudo mkdir -p /var/www/html
-sudo cp -r site/* /var/www/html/
-
-echo "=== Готово ==="
+echo "Done."
 
 sudo reboot
